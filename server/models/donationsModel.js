@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const donationsSchema = new mongoose.schema({
+const donationsSchema = new mongoose.Schema({
     uuid:{type: String, required:true},
     donorid:{type: String, required:true},
     receipientid:{type: String, required:true},
@@ -12,4 +12,4 @@ const donationsSchema = new mongoose.schema({
 })
 
 const DonationsModel = mongoose.model("DonationsModel", donationsSchema)
-moduke.exports = DonationsModel
+module.exports = DonationsModel

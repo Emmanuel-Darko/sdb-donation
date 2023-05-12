@@ -15,15 +15,22 @@ const registerReceipientController = async(req,res)=>{
         uuid,
         name,
         email,
-        hashPassword,
+        password: hashPassword,
         cause,
         size,
         location
     }
-    await DonorModel.create(newReceipient).then(result => {
-        res.status(201).json(`registered sucessfully: ${req.token}`)
-        return;
+    console.log(newReceipient);
+    await ReceipientModel.create(newReceipient).then(result => {
+        if(result){
+            console.log(result)
+            res.status(201).json(`registered sucessfully: ${req.token}`)
+        }
     })
+    return;
 }
 
 //receipient login
+
+
+module.exports = {registerReceipientController}
