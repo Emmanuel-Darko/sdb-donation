@@ -3,15 +3,20 @@ const DonorModel = require("../models/donorModel")
 const jwtSecret = process.env.JWT_SECRET
 
 const generateTokenMiddleware = async(req, res, next) => {
-    const {email} = req.body
-    const findUser = await DonorModel.find({email})
-    console.log(findUser)
-    if(findUser.length !== 0){
-        return res.status(403).json('User already exists')
+
+    //get donor registration info
+    const {email,password} = req.body;
+
+    
+    //validate donor info
+    if((!email && password)){
+        res.status(201).json("email and password required!");
+        return;
     }
     
-    jwt.sign(email, jwtSecret, (err, token) => {
-        if(err)
+    //generate token 
+    jwt.sign(email, jwtSecret, (error, token) => {
+        if(error)
             return res.status(400).json('validation error')
         else{
             req.token = token
@@ -19,6 +24,7 @@ const generateTokenMiddleware = async(req, res, next) => {
         }
     })
 }
+
 // const verifyToken = (req,res,next)=>{
 //     const token = req.headers.usertoken;
 //     if(token){
