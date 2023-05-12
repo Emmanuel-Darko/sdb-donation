@@ -12,10 +12,14 @@ app.use(cors())
 
 //importing the routes from the router folder
 const donorRoutes = require("./routes/donorRoutes");
+const receipientRoutes = require("./routes/receipientRoutes");
+const donationsRoutes = require("./routes/donationsRoutes")
 
 
 ///use the imported routes
-app.use("/donor",donorRoutes)
+app.use("/donor",donorRoutes);
+app.use("/receipient",receipientRoutes)
+app.use("/donations", donationsRoutes)
 
 dbConnect().then(res=>{
     app.listen(port, ()=>{

@@ -15,7 +15,7 @@ const registerValidator = (req, res, next) => {
     const {error} = schema.validate({email, password, repeat_password})
     if(error)
         return res.status(400).json(error.details[0].message)
-    return next()
+     next()
 }
 
 
