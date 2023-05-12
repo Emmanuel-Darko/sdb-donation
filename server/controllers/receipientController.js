@@ -2,7 +2,7 @@ const {v4:uuidv4} =require("uuid")
 const bcrypt = require("bcrypt")
 const ReceipientModel = require("../models/receipientModel")
 
-const registerReceipient = async(req,res)=>{
+const registerReceipientController = async(req,res)=>{
     //get receipient info
     const {name, email, password, cause, size, location} = req.body;
     

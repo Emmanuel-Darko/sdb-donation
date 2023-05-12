@@ -1,44 +1,63 @@
-const jwt = require("jsonwebtoken")
-const DonorModel = require("../models/donorModel")
+// const users = require('../models/user') //array option
+const DonorModel = require('../models/donorModel')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 const jwtSecret = process.env.JWT_SECRET
 
-const generateTokenMiddleware = async(req, res, next) => {
+const registerMiddleware = async(req, res, next) => {
+    const { email } = req.body
+    const foundUser = await DonorModel.findOne({email}).exec()
+    if(foundUser)
+        return res.status(404).json("User already exists, sign in...")
 
-    //get donor registration info
-    const {email,password} = req.body;
-
-    
-    //validate donor info
-    if((!email && password)){
-        res.status(201).json("email and password required!");
-        return;
+    if(!foundUser){
+        const token = jwt.sign({
+                exp: Math.floor(Date.now() / 1000) + (60 * 60), //expires in 1 hour
+                email, // email to be signed
+            },
+            jwtSecret // private key
+        )
+        req.token = token
+        next()
     }
+}
+
+
+const loginMiddleware = async(req, res, next) => {
+    const { email, password } = req.body
+    const foundUser = await DonorModel.findOne({email}).exec()
+    if(!foundUser)
+        return res.status(400).json('User does not exist consider signing up...')
     
-    //generate token 
-    jwt.sign(email, jwtSecret, (error, token) => {
-        if(error)
-            return res.status(400).json('validation error')
-        else{
-            req.token = token
-            next()
+    const comparePass = bcrypt.compareSync(password, foundUser.password)
+
+    if(!comparePass)
+        return res.status(404).json('Check email or password...')
+    
+    const token = jwt.sign({
+            exp: Math.floor(Date.now() / 1000) + (60 * 60), //expires in 1 hour
+            email, // email to be signed
+        },
+        jwtSecret // private key
+    )
+    req.token = token
+    next()
+}
+
+const verifyUserMiddleware = (req, res, next) => {
+    const {usertoken} = req.headers
+    jwt.verify(usertoken, jwtSecret, (err, decoded) => {
+        if(err){
+            console.log(err)
+            return res.status(404).json('session expired, please login...')
         }
+        req.decodedEmail = decoded.email
+        next()
     })
 }
 
-// const verifyToken = (req,res,next)=>{
-//     const token = req.headers.usertoken;
-//     if(token){
-//      jwt.verify(token,(error,result)=>{
-//         if(error){
-//             res.status(403).json("cannot verify email")
-//             return;
-//         }
-//         res.status(201).json(result);
-//         next;
-//      })
-     
-//     }
-// }
-
-
-module.exports = {generateTokenMiddleware}
+module.exports = {
+    registerMiddleware,
+    loginMiddleware,
+    verifyUserMiddleware
+}
