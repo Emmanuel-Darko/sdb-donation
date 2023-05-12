@@ -7,7 +7,7 @@
                 <span class="head-sub">to <b>Save</b> </span>
                 <span class="head-sub2">the <b>world!</b> </span>
             </div>
-            <button class="start"> pass a coin 💰 </button>
+            <button class="start"> <router-link to="/d-auth/login"> pass a coin 💰 </router-link></button>
             <img class="smile" src="/images/smile.svg" alt="smile">
         </section>
         <section class="banner-right">
@@ -92,6 +92,11 @@
         /* margin-top: -20px; */
         cursor: pointer;
     }
+    .banner-left .start a{
+        text-decoration: none;
+        color: #000;
+    }
+
     .banner-left .start:hover{
         box-shadow: none;
         border: 1px solid green;

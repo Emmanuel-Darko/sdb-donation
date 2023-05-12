@@ -16,6 +16,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         data(){
             return{
@@ -46,19 +47,19 @@
                 if(this.title == 'Register'){
                     const newDonor = {
                         email: this.donorDetails.email,
-                        password: this.donorDetails.password
+                        password: this.donorDetails.password,
+                        repeat_password: this.donorDetails.repeat_password
                     }
-                    const oldDonors = JSON.parse(localStorage.getItem('donors'))
-                        
-                    if(oldDonors){
-                        const updatedDonors = [newDonor, ...oldDonors]
-                        localStorage.setItem('donors', JSON.stringify(updatedDonors))
-                    }else{
-                        localStorage.setItem('donors', JSON.stringify(newDonor))
-                    }
-                    this.$router.push('/home')
+                    axios.post('http://localhost:4000/donor/register', newDonor)
+                    .then((res) => {
+                        const token = res.data
+                        localStorage.setItem('donortoken', token)
+                        this.$router.push('/home/dasboard')
+                    })
+                    .catch(err => {
+                        alert(err.response ? err.response.message : err)
+                    })
                 }
-
 
                 if(this.title == 'Login'){
                     console.log(this.title)
@@ -66,13 +67,15 @@
                         email: this.donorDetails.email,
                         password: this.donorDetails.password
                     }
-                    const donors = JSON.parse(localStorage.getItem('donors'))
-                    const foundUser = donors.find((donor) => donor.email == newDonor.email)
-                    if(foundUser)
-                        this.$router.push('/home')
-                    else{
-                        alert('User does not exist')
-                    }
+                    axios.post('http://localhost:4000/donor/login', newDonor)
+                    .then((res) => {
+                        const token = res.data
+                        localStorage.setItem('donortoken', token)
+                        this.$router.push('/home/dasboard')
+                    })
+                    .catch(err => {
+                        alert(err.response ? err.response.message : err)
+                    })                    
                 }
             }
         }
