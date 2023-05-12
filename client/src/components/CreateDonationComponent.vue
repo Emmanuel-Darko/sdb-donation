@@ -2,7 +2,7 @@
     <div class="container">
         <!-- create donations -->
         <div class="create-donation">
-            <h3>CREATE A DONATION</h3>
+            <h2>CREATE A DONATION</h2>
             <form action="" class="donor-form">
                 <select name="receipient" id="receipient">
                     <option value="default">Select a receipient</option>
@@ -15,6 +15,7 @@
                 <input type="file" placeholder="Add an image">
                 <button @click.prevent="makeDonation()">Donate 💰</button>
             </form>
+            <img class="donation-icon" src="/images/donation1.svg" alt="donation">
         </div>
 
         <!-- view donations -->
@@ -42,7 +43,7 @@
 
 <style lang="css" scoped>
     .container{
-        background-color: #f1f1f1;
+        background-color: #fff;
         display: flex;
         flex-direction: column;
     }
@@ -52,6 +53,10 @@
         justify-content:flex-start;
         align-items: center;
         height: 100vh;
+    }
+    .create-donation h2{
+        margin-bottom: 30px;
+        color: green;
     }
     .donor-form{
         display: flex;
@@ -65,7 +70,7 @@
         border-radius: 20px;
         background-color: #fff;
         box-shadow:  20px 20px 60px #bebebe,
-        -20px -20px 60px #ffffff;
+        -20px -20px 60px #f1f1f1;
     }
     .donor-form select, .donor-form input, .donor-form textarea{
         width: 50%;
@@ -82,7 +87,12 @@
         color: #fff;
         cursor: pointer;
     }
-
+    .donation-icon{
+        width: 20%;
+        position: absolute;
+        right: 0;
+        top: 50%;
+    }
 
 
 </style>

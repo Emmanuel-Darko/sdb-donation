@@ -1,8 +1,8 @@
 <template>
     <div class="container">
-        <!-- <div class="l-image">
+        <div class="l-image">
             <img src="/images/logo.png" alt="logo">
-        </div> -->
+        </div>
 
         <ul class="nav">
             <li><router-link :to="{name:'home', params:{id:'donate'}}"> Donate </router-link></li>
@@ -20,21 +20,27 @@
 </script>
 
 <style lang="css" scoped>
+    .container{
+        /* background-color: transparent; */
+    }
     .l-image{
-        width: 50px;
-        height: 50px;
+        width: 80px;
+        height: 80px;
         margin: auto;
+        position: absolute;
+        left: 50px;
         border-radius: 50%;
-        margin-bottom: 10px;
+        margin-top: -15px;
         overflow: hidden;
         /* background: #ffce6c; */
-        box-shadow:  5px 5px 9px #d1bba1,
+        box-shadow:  5px 5px 9px #a1d1a6,
         -5px -5px 9px #ffffe7;
     }
     .l-image img{
         width: auto;
-        height: 100%;
-        /* margin-left: -60%; */
+        height: 120%;
+        margin-top: -5px;
+        margin-left: -10%;
     }
     ul.nav{
         display: flex;
@@ -42,7 +48,7 @@
         align-items: center;
         gap: 10px;
         list-style: none;
-        margin: 20px;
+        margin: 40px 0;
         padding: 10px;
         /* border: 1px solid; */
         /* box-shadow:  20px 20px 60px #bebebe,
@@ -55,7 +61,8 @@
         color: black;
         padding: 10px;
         transition: 0.2s;
-        border: 2px solid green;
+        border: 1px solid green;
+        border-radius: 5px;
         box-shadow:  20px 20px 60px #bebebe,
         -20px -20px 60px #ffffff;
     }
@@ -63,12 +70,16 @@
         box-shadow: none;
         border-width: 3px;
     }
-    .router-link-exact-active{
+    .router-link-exact-active {
         background-color: green;
         color: #fff;
         box-shadow: none;
         text-decoration: none;
     }
+    a.router-link-active.router-link-exact-active{
+        color: #fff;
+    }
+
     .nav button{
         font-family: 'Sono';
         position: absolute;

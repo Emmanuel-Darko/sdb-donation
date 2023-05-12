@@ -1,9 +1,11 @@
 <template>
-    <DonorNavComponent />
+    <div class="container">
+        <DonorNavComponent />
 
-    <CreateDonationComponent v-if="donorRoute=='donate'" :receipients="receipients"/>
-    <AllReceipientsComponent v-if="donorRoute=='receipients'"  :receipients="receipients"/>
-    <MyDonationsComponent v-if="donorRoute=='mydonations'"/>
+        <CreateDonationComponent v-if="donorRoute=='donate'" :receipients="receipients"/>
+        <AllReceipientsComponent v-if="donorRoute=='receipients'" :receipients="receipients"/>
+        <MyDonationsComponent v-if="donorRoute=='mydonations'"/> 
+    </div>
 </template>
 
 <script>
