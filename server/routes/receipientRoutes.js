@@ -1,14 +1,13 @@
 const express = require("express")
 const router = express.Router()
 
-const {registerReceipientController} = require("../controllers/receipientController")
-const {registerReceipientValidator} = require("../validators/receipientValidator")
-const { registerMiddleware} = require("../middleware/authMiddleware")
+const {registerReceipientValidator, loginReceipientValidator} = require("../validators/receipientValidator")
+const {registerReceipientMiddleware, loginReceipientMiddleware} = require("../middlewares/authMiddleware")
+const {registerReceipientController, loginReceipientController} = require("../controllers/receipientController")
 
 
-router.post("/register", registerReceipientValidator,registerMiddleware, registerReceipientController)
-// router.post("/login", loginValidator,loginMiddleware, loginDonorController)
-
+router.post("/register", registerReceipientValidator,registerReceipientMiddleware, registerReceipientController)
+router.post("/login", loginReceipientValidator,loginReceipientMiddleware, loginReceipientController)
 
 
 module.exports=router

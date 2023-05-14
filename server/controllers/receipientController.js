@@ -20,17 +20,26 @@ const registerReceipientController = async(req,res)=>{
         size,
         location
     }
-    console.log(newReceipient);
-    await ReceipientModel.create(newReceipient).then(result => {
-        if(result){
-            console.log(result)
-            res.status(201).json(`registered sucessfully: ${req.token}`)
-        }
-    })
+
+    try {
+        await ReceipientModel.create(newReceipient).then(result =>{
+            res.status(201).json({
+                message: 'Registered successfully',
+                token: req.token
+            })
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).json('registeration failed, please try again...')
+    }
+
     return;
 }
 
 //receipient login
+const loginReceipientController = (req, res) => {
+    const token = req.token
+    res.status(200).json({message:'login successful', token})
+}
 
-
-module.exports = {registerReceipientController}
+module.exports = {registerReceipientController, loginReceipientController}

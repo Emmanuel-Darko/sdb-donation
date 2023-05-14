@@ -1,13 +1,30 @@
-const DonationsModel = require("../models/donationsModel")
-const {v4:uuidv4} =require("uuid")
+const {v4:uuidv4} =require("uuid");
+const ReceipientModel = require("../models/receipientModel");
+const DonorModel = require("../models/donorModel");
+const DonationsModel = require("../models/donationsModel");
 
+//get All Receipients
+const getReceipientsController = async(req, res)=>{
+  try{
+    const receipients = await ReceipientModel
+    .find({}, "-_id -__v -password").exec()
+    res.status(200).json({message:'successful', data: receipients})
+  }catch(e){
+    console.log(e)
+    res.status(400).json('request failed')
+  }
+}
+
+//Create donation for user
 const createDonationController = async(req,res)=>{
   //get donor info
-  const { donorId, receipientId, title, description, amount, image } = req.body;
+  const { receipientId, title, description, amount, image } = req.body;
+  const donorId = req.uuid // decoded donorId passed through headers from middleware
+  const donationsId = uuidv4()    //generates new id for donations
+  // const {name} = await ReceipientModel.findOne({receipientId}, "name")
 
-  const uuid =uuidv4()
   const newDonation = {
-    uuid,
+    uuid: donationsId,
     donorId,
     receipientId,
     title,
@@ -16,8 +33,24 @@ const createDonationController = async(req,res)=>{
     image
   }
   await DonationsModel.create(newDonation)
-  res.status(201).json("donation made sucessfully! Thank you for your benevolence")
+  res.status(201).json({message:'donation made sucessfully! Thank you for your benevolence'})
 }
 
 
-module.exports = createDonationController
+//get all user donations
+const getUserDonationsController = async(req, res) => {
+  const uuid = req.uuid // decoded donorId passed through headers from middleware
+  // const {name} = await ReceipientModel.findOne({receipientId})
+  
+  if(uuid){
+    const userDonations = await DonationsModel.find({donorId: uuid})  //find users donations from allDonations
+    if(userDonations)
+      return res.status(200).json({data: userDonations})
+  }
+  else{
+    return res.status(400).json('Request error, try again later...')
+  }
+}
+
+
+module.exports = {createDonationController, getReceipientsController, getUserDonationsController}

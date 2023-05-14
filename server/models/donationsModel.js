@@ -2,13 +2,14 @@ const mongoose = require("mongoose")
 
 const donationsSchema = new mongoose.Schema({
     uuid:{type: String, required:true},
-    donorid:{type: String, required:true},
-    receipientid:{type: String, required:true},
-    image:{type: String, required:false},
+    donorId:{type: String, required:true},
+    receipientId:{type: String, required:true},
     title:{type: String, required:true},
     description:{type: String, required:true},
-    amount:{type: String, required:true}
-
+    amount:{type: Number, required:true},
+    image:{type: String, required:false}
+},{
+    timestamps: true
 })
 
 const DonationsModel = mongoose.model("DonationsModel", donationsSchema)
