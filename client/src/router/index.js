@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AuthPage from '@/views/AuthPage.vue'
 import LandingPage from '@/views/LandingPage.vue'
+import Momo from '@/views/Momo.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,7 +14,14 @@ const router = createRouter({
     {
       path: '/d-auth/:id',
       name: 'd-auth',
+      // component: () => import('../views/AuthPage.vue')
       component: AuthPage
+    },
+    {
+      path: '/momo/:id',
+      name: 'momo',
+      // component: () => import('../views/AuthPage.vue')
+      component: Momo
     },
     {
       path: '/home/:id',

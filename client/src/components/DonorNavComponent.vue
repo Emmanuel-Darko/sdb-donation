@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="l-image">
-            <img src="/images/logo.png" alt="logo">
+            <router-link to="/"><img src="/images/logo.png" alt="logo"></router-link>
         </div>
 
         <ul class="nav">

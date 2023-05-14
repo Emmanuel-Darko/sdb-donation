@@ -52,29 +52,30 @@
                     }
                     axios.post('http://localhost:4000/donor/register', newDonor)
                     .then((res) => {
-                        const token = res.data
+                        const token = res.data.token
                         localStorage.setItem('donortoken', token)
-                        this.$router.push('/home/dasboard')
+                        this.$router.push('/home/donate')
                     })
                     .catch(err => {
-                        alert(err.response ? err.response.message : err)
+                        console.log(err);
+                        alert(err.response ? err.response.data : err)
                     })
                 }
 
                 if(this.title == 'Login'){
-                    console.log(this.title)
                     const newDonor = {
                         email: this.donorDetails.email,
                         password: this.donorDetails.password
                     }
                     axios.post('http://localhost:4000/donor/login', newDonor)
                     .then((res) => {
-                        const token = res.data
+                        const token = res.data.token
                         localStorage.setItem('donortoken', token)
-                        this.$router.push('/home/dasboard')
+                        this.$router.push('/home/donate')
                     })
                     .catch(err => {
-                        alert(err.response ? err.response.message : err)
+                        console.log(err);
+                        alert(err.response ? err.response.data : err)
                     })                    
                 }
             }

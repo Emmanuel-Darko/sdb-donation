@@ -18,14 +18,30 @@
 </template>
 
 <script setup>
-    import {ref} from 'vue'
-    const props = defineProps({
-        receipients:String
-    })
+    import {ref, onBeforeMount} from 'vue'
+    import axios from 'axios'
 
+    // const props = defineProps({
+    //     receipients:String
+    // })
+    let receipients = ref([])
     let showclass = ref('100%')
     let receipientEmail = ref('')
 
+    onBeforeMount(() => {
+        const token = localStorage.getItem('donortoken')
+        axios.get('http://localhost:4000/donor/getReceipients', {headers: {usertoken:token}})
+        .then((res) => {
+            // console.log(res.data.data)
+            receipients.value = res.data.data
+            console.log('receipients', res.data.data)
+        })
+        .catch(err => {
+            console.log(err.response.data)
+            alert(err.response.data)
+        })
+    })
+    
     function show(receipient) {
         receipientEmail.value = receipient
         showclass.value == '100%' ? showclass.value = 0 : showclass.value = '100%'

@@ -3,17 +3,17 @@
         <!-- create donations -->
         <div class="create-donation">
             <h2>CREATE A DONATION</h2>
-            <form action="" class="donor-form">
-                <select name="receipient" id="receipient">
+            <form @submit.prevent="makeDonation()" class="donor-form">
+                <select name="receipient" id="receipient" v-model="donation.receipientId">
                     <option value="default">Select a receipient</option>
-                    <option v-for="receipient in receipients" :value="receipient">{{ receipient.name }}</option>
+                    <option v-for="receipient in receipients" :value="receipient.uuid" :key="receipient.uuid">{{ receipient.name }}</option>
                 </select>
-                <input type="text" placeholder="Give a title">
-                <textarea type="text" cols="52" rows="10" placeholder="Describe your donation..."></textarea>
-                <input type="number" placeholder="Enter amount GHS">
+                <input type="text" v-model="donation.title" placeholder="Give a title">
+                <textarea type="text" v-model="donation.description" cols="52" rows="10" placeholder="Describe your donation..."></textarea>
+                <input type="number" v-model="donation.amount" placeholder="Enter amount GHS">
                 <span>Please add an image or video of donation below</span>
-                <input type="file" placeholder="Add an image">
-                <button @click.prevent="makeDonation()">Donate 💰</button>
+                <input type="file" v placeholder="Add an image">
+                <button type="submit">Donate 💰</button>
             </form>
             <img class="donation-icon" src="/images/donation1.svg" alt="donation">
         </div>
@@ -24,20 +24,49 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
-        props:[
-            "receipients"
-        ],
         data(){
             return{
-                receipients: this.receipients
+                receipients: [],
+                donation:{
+                    receipientId: '',
+                    title: '',
+                    description: '',
+                    amount: '',
+                    image: ''
+                }
             }
         },
         methods:{
             makeDonation(){
-                
+                const token = localStorage.getItem('donortoken')
+                const newDonation = {}
+                Object.keys(this.donation).forEach(key =>{
+                    newDonation[key] = this.donation[key]
+                })
+                axios.post('http://localhost:4000/donor/donate', newDonation, {headers: {usertoken: token}})
+                .then(res => {
+                    console.log(res)
+                    alert(res.data.message)
+                })
+                .catch(err =>{
+                    console.log(err)
+                    alert(err.response.data)
+                })
             }
-        }
+        },
+        beforeMount() {
+            const token = localStorage.getItem('donortoken')
+            axios.get('http://localhost:4000/donor/getReceipients', {headers: {usertoken: token}})
+            .then((res) => {
+                this.receipients = res.data.data
+            })
+            .catch(err => {
+                console.log(err.response.data)
+                alert(err.response.data)
+            })
+        },
     }
 </script>
 
@@ -80,7 +109,7 @@
         font-size: 15px;
     }
     .donor-form button{
-        padding: 10px 20px;
+        padding: 20px 40px;
         background-color: green;
         border: none;
         border-radius: 10px;
