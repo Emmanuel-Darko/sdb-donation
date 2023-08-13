@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AuthPage from '@/views/AuthPage.vue'
 import LandingPage from '@/views/LandingPage.vue'
-import Momo from '@/views/Momo.vue'
+import JobLanding from '../../job-posting/JobLanding.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,10 +18,10 @@ const router = createRouter({
       component: AuthPage
     },
     {
-      path: '/momo/:id',
-      name: 'momo',
+      path: '/job',
+      name: 'job',
       // component: () => import('../views/AuthPage.vue')
-      component: Momo
+      component: JobLanding
     },
     {
       path: '/home/:id',

@@ -8,6 +8,7 @@ const getReceipientsController = async(req, res)=>{
   try{
     const receipients = await ReceipientModel
     .find({}, "-_id -__v -password").exec()
+    console.log('SERVER RES');
     res.status(200).json({message:'successful', data: receipients})
   }catch(e){
     console.log(e)

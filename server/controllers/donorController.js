@@ -37,6 +37,7 @@ const registerDonorController = async(req, res)=>{
 const loginDonorController =async(req, res)=>{
     //get donor token
     const token = req.token
+    console.log(token);
     res.status(200).json({message:'Login successful', token});
 }
 

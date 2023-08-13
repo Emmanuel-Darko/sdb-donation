@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from '../request.js'
     export default {
         data(){
             return{
@@ -56,15 +56,17 @@
                 })
             }
         },
-        beforeMount() {
+        mounted() {
+            const BASE_URL = import.meta.env.VITE_BASE_URL;
             const token = localStorage.getItem('donortoken')
-            axios.get('http://localhost:4000/donor/getReceipients', {headers: {usertoken: token}})
+            axios.get(BASE_URL + '/donor/getReceipients')
             .then((res) => {
-                this.receipients = res.data.data
+                console.log('RESPONSE', res);
+                // this.receipients = res.data.data
             })
             .catch(err => {
-                console.log(err.response.data)
-                alert(err.response.data)
+                console.log(err)
+                // alert(err.response.data)
             })
         },
     }

@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from '../request.js'
     export default {
         data(){
             return{
